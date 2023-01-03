@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Javascript Excel paste Clipboard handing</title>
+    <style type="text/css">
+     .input_here{
+     	width: 500px;
+     }
+    </style>
+  </head>
+  <body>
+  	<div class="sisi">
+  	<input id="paste-here" type="text" placeholder="paste text from excel here" class="input_here"/><br/>
+    <input type="text" class="input_here"><br/>
+    <input type="text" class="input_here"><br/>
+    <input type="text" class="input_here"><br/>
+    <input type="text" class="input_here"><br/>
+    <input type="text" class="input_here"><br/>
+    <input type="text" class="input_here"><br/>
+    <input type="text" class="input_here"><br/>
+    <input type="text" class="input_here"><br/>
+	</div>
+    <script type="text/javascript">
+ var first_paste = '';
+document.getElementById('paste-here').addEventListener('paste', function(e) {
+  // make sure pasted data is text
+  var pastedData = e.clipboardData.getData('text/plain');
+
+  // if pasted data was text, convert it into an array
+  var dataArray = pastedData.split('\n');
+
+  // clear the value in the textbox
+  this.value = '';
+
+  // paste each array value into the textboxes with class 'input_here'
+  var inputBoxes = document.getElementsByClassName('input_here');
+  for (var i = 0; i < inputBoxes.length; i++) {
+    inputBoxes[i].value = dataArray[i];
+  }
+ 
+  first_paste = dataArray[0];
+
+});
+document.getElementById('paste-here').addEventListener('paste', function(e) {
+	setTimeout(() => {
+    document.getElementById('paste-here').value=first_paste;
+  }, 100);
+});
+    </script>
+
+   <script type="text/javascript">
+   	
+var inputs = document.querySelectorAll('.input_here');
+
+// loop through all elements in the array
+for (var i = 0; i < inputs.length; i++) {
+  // listen for the 'keydown' event on each element
+  inputs[i].addEventListener('keydown', function(event) {
+    // check if the pressed key is the 'Enter' key
+    if (event.keyCode === 13) {
+      // find the index of the current element in the array
+      var index = [].indexOf.call(inputs, this);
+
+      // check if the current element is the last element in the array
+      if (index === inputs.length - 1) {
+        // move focus to the first element
+        inputs[0].focus();
+      } else {
+        // move focus to the next element
+        inputs[index + 1].focus();
+      }
+    }
+  });
+}
+   </script>
+</body>
+
+</html>
